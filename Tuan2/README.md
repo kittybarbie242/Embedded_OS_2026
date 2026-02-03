@@ -69,11 +69,13 @@ sudo umount /mnt/sdcard
 Kết nối USB-to-TTL vào hàng chân J1 trên BeagleBone Black và theo dõi quá trình boot.
 - Kết nối UART: Baudrate 115200.
 - Thao tác vật lý: Nhấn giữ nút S2 (USER) và cấp nguồn để ép board đọc dữ liệu từ thẻ nhớ thay vì bộ nhớ trong (eMMC).
+---
 ## 3. Kết quả đạt được
 Khi U-Boot khởi động thành công, hệ thống sẽ dừng tại dấu nhắc lệnh **=>**.  Nhập các lệnh sau để kiểm tra:
 - **version**: Kiểm tra phiên bản và ngày giờ biên dịch (để xác nhận file mới nạp).
 - **bdinfo**: Hiển thị thông tin chi tiết về phần cứng (RAM, địa chỉ IP, kiến trúc chip).
 - **printenv**: Xem các biến môi trường cấu hình cho quá trình khởi động.
+---
 # Bài 2: BIÊN DỊCH VÀ CÀI ĐẶT KERNEL
 ## 1. Mục tiêu
 - Biên dịch  Kernel: Xây dựng Linux Kernel từ mã nguồn chuẩn phiên bản ổn định 6.6.y.
@@ -142,3 +144,4 @@ Cắm lại thẻ nhớ vào Board, thực hiện lại thao tác nhấn giữ n
 - Nạp Kernel vào RAM: ***load mmc 0:1 0x82000000 zImage***
 - Nạp Device Tree vào RAM: ***load mmc 0:1 0x88000000 am335x-boneblack.dtb***
 - Khởi động nhân Linux: ***bootz 0x82000000 - 0x88000000***
+

@@ -88,7 +88,7 @@ load mmc 0:1 0x82000000 zImage
 load mmc 0:1 0x88000000 am335x-boneblack.dtb
 bootz 0x82000000 - 0x88000000
 ```
-### Kết quả đạt được:
+#### Kết quả đạt được:
 ![Image](rootfs1.jpg)
 ---
 #### 2. Thử nghiệm bài 1
@@ -98,7 +98,7 @@ ls /
 echo "Happy New Year!" > test.txt
 cat test.txt
 ```
-### Kết quả đạt được: 
+#### Kết quả đạt được: 
 ![Image](rootfs2.jpg)
 ---
 #### 3. Thử nghiệm bài 2
@@ -108,6 +108,7 @@ ls -l /bin/vi
 vi bai_tap_2.txt
 cat bai_tap_2.txt
 ```
-### Kết quả đạt được:
+#### Kết quả đạt được:
 ![Image](vi.jpg)
+
 

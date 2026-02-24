@@ -1,7 +1,7 @@
 # Root File System (RootFS)
 ##  Mục tiêu
 
-* **Bài 1 (Cài đặt RootFS cơ bản):** Biên dịch Root File System (RootFS) từ mã nguồn BusyBox.
+* **Bài tập 1 (Cài đặt RootFS cơ bản):** Biên dịch Root File System (RootFS) từ mã nguồn BusyBox.
   * Định dạng và cấu trúc thẻ nhớ (phân vùng BOOT FAT32 và ROOTFS ext4).
   * Liên kết Kernel với RootFS thông qua  `bootargs` và khởi động thành công trên board.
   * Xác nhận hệ điều hành hoạt động tốt qua các lệnh cơ bản: `ls`, `echo`, `cat`.
@@ -110,6 +110,7 @@ cat bai_tap_2.txt
 ```
 #### Kết quả đạt được:
 ![Image](vi.jpg)
+
 
 
 

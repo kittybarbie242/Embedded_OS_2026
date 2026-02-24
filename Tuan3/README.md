@@ -95,7 +95,7 @@ bootz 0x82000000 - 0x88000000
 Tại dấu ~ #, gõ các lệnh sau để thử nghiệm
 ```
 ls /
-echo "Happy New Year 2026!" > test.txt
+echo "Happy New Year 2026!"
 cat test.txt
 ```
 #### Kết quả đạt được: 
@@ -110,6 +110,7 @@ cat bai_tap_2.txt
 ```
 #### Kết quả đạt được:
 ![Image](vi.jpg)
+
 
 
 

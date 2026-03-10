@@ -27,7 +27,7 @@ Mục tiêu là biên dịch toàn bộ hệ điều hành tùy chỉnh từ mã
     ```
     Quá trình này sẽ sinh ra file `sdcard.img` và bộ Toolchain tại thư mục `output/host/bin/`.
     ### Kết quả đạt được:
-    ![Image](BusyBox.jpg)
+    ![Image](buildroot1.jpg)
     ---
 * **Bước 5: Nạp Image vào thẻ nhớ:**
     ```bash
@@ -38,7 +38,7 @@ Mục tiêu là biên dịch toàn bộ hệ điều hành tùy chỉnh từ mã
     * Cấp nguồn và ép boot từ thẻ.
     * Khi màn hình Console yêu cầu `buildroot login:`, nhập `root` (không cần password) để đăng nhập thành công.
     ### Kết quả đạt được:
-    ![Image](BusyBox.jpg)
+    ![Image](infor.jpg)
     ---
 
 # Bài tập 2: Dùng Toolchain từ Buildroot để biên dịch C/C++
@@ -58,7 +58,7 @@ Mục tiêu là hiểu được quy trình **Biên dịch chéo (Cross-compiling
     ~/workspace/buildroot-2024.02.1/output/host/bin/arm-buildroot-linux-gnueabihf-gcc hello.c -o hello_arm
     ```
     ### Kết quả biên dịch:
-    ![Image](BusyBox.jpg)
+    ![Image](compile.jpg)
     ---
 * **Bước 3: Sao chép thủ công chương trình vào RootFS:**
     Cắm thẻ nhớ chứa RootFS vào và chép file thực thi sang.
@@ -68,7 +68,7 @@ Mục tiêu là hiểu được quy trình **Biên dịch chéo (Cross-compiling
 * **Bước 4: Thử nghiệm trên BeagleBone Black:**
     Rút thẻ nhớ ra và cắm vào BBB để khởi động. Tại màn hình Console, chạy lệnh `./hello_arm` để hiển thị kết quả.
     ### Kết quả đạt được:
-    ![Image](BusyBox.jpg)
+    ![Image](test.jpg)
     ---
 
 # Bài tập 03 (Tùy chọn): Thêm Package vào Buildroot
@@ -129,17 +129,18 @@ Mục tiêu là tự động hóa quy trình đưa phần mềm vào hệ điề
         source "package/helloworld/Config.in"
         ```
     
-    ![Image](BusyBox.jpg)
+    ![Image](package.jpg)
     ---
 * **Bước 5: Bật Package và Biên dịch lại:**
     * Sử dụng lệnh `make menuconfig`.
     * Tìm đến mục `Miscellaneous` và bật gói `[*] helloworld (Group 8)`.
 
-    ![Image](BusyBox.jpg)
+    ![Image](select.jpg)
     ---
     * Lưu cấu hình và chạy lệnh `make` để Buildroot tự động cập nhật lại Image.
 * **Bước 6: Thử nghiệm chức năng:**
     Nạp lại thẻ nhớ và boot trên BBB. Tại giao diện dòng lệnh, chỉ cần gõ tên gói như một lệnh hệ thống bình thường (không cần dấu `./`) để chạy thử.
     ### Kết quả đạt được:
-    ![Image](BusyBox.jpg)
+    ![Image](result.jpg)
     ---
+

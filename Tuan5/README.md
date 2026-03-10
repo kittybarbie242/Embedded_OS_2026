@@ -115,7 +115,7 @@ Chuyển đổi thủ công thành hệ thống tự động hoàn toàn. Đưa 
 * **Bước 2: Tạo Package Ứng dụng tích hợp (mathjson)**
 
     Tạo thư mục `package/mathjson/src` chứa mã nguồn `mathjson.c` (gọi hàm bóc tách của cJSON và hàm tính tổng của libmymath).
-
+  
     Thiết lập Ràng buộc phụ thuộc: trong file `Config.in` của mathjson, khai báo bắt buộc chọn 2 gói thư viện:
     ```
     select BR2_PACKAGE_CJSON
@@ -136,4 +136,5 @@ Chuyển đổi thủ công thành hệ thống tự động hoàn toàn. Đưa 
     ### Kết quả đạt được:
     ![Image](Test2.jpg)
 ---
+
 

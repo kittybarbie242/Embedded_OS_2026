@@ -1,5 +1,5 @@
-# Báo cáo Tuần 5: Biên dịch chéo thư viện và ứng dụng 
-## Bài tập 01: Biên dịch ứng dụng với thư viện cJSON có sẵn
+# Tuần 5: Biên dịch chéo thư viện và ứng dụng 
+## Bài tập 01: Biên dịch ứng dụng với thư viện cJSON
 ### 1. Mục tiêu
 Sử dụng thư viện `cJSON` để phân tích một gói tin JSON. Sử dụng Toolchain để biên dịch chéo với cờ liên kết thư viện (`-lcjson`), và thử nghiệm ứng dụng trên board BeagleBone Black.
 ### 2. Quá trình thực hiện 
@@ -34,6 +34,8 @@ Sử dụng thư viện `cJSON` để phân tích một gói tin JSON. Sử dụ
     ```
 * **Bước 5: Khởi chạy trên BBB**
     Cắm thẻ nhớ vào board và khởi chạy ứng dụng bằng lệnh `./HelloJSON`
+  ### Kết quả thu được:
+  ![Image](HelloJSON.jpg)
 ---
 ## Bài tập 02: Tự tạo thư viện cá nhân
 ### 1. Mục tiêu
@@ -58,6 +60,8 @@ Tạo một thư viện toán cơ bản (libmymath). Hiểu rõ quy trình biên
     $CC -c mymath.c -o mymath.o
     $AR rcs libmymath.a mymath.o
     ```
+    #### Kết quả biên dịch:
+    ![Image](CompileLib.jpg)
 * **Bước 3: Cập nhật thư viện vào Sysroot**
 
     Để Toolchain tự động tìm thấy thư viện khi biên dịch các app khác, nên phải sao chép file Header và file Lib vào Sysroot:
@@ -78,6 +82,8 @@ Tạo một thư viện toán cơ bản (libmymath). Hiểu rõ quy trình biên
     # App ép tĩnh hoàn toàn (kể cả với thư viện hệ thống C)
     $CC tinhtong.c libmymath.a -o app_static_full -static
     ```
+    #### Kết quả biên dịch:
+    ![Image](CompileEx.jpg)
 * **Bước 5: So sánh và Phân tích**
 
     Kiểm tra dung lượng: `ls -lh app_dynamic app_static_full`. (Kết quả: app_static_full có dung lượng lớn gấp nhiều lần do đã ép toàn bộ thư viện tĩnh vào trong).
@@ -90,7 +96,8 @@ Tạo một thư viện toán cơ bản (libmymath). Hiểu rõ quy trình biên
     ```
 * **Bước 6: Thử nghiệm trên BBB**
     Sao chép 2 ứng dụng vào /root/. Và phải sap chép kèm file libmymath.so vào /usr/lib/ của thẻ nhớ thì app_dynamic mới có thể hoạt động.
-
+    ### Kết quả thu được:
+    ![Image](Test1.jpg)
 ---
 ## Bài tập 03: Tích hợp ứng dụng, thư viện vào Buildroot
 ### 1. Mục tiêu
@@ -119,14 +126,14 @@ Chuyển đổi thủ công thành hệ thống tự động hoàn toàn. Đưa 
     MATHJSON_DEPENDENCIES = cjson libmymath
     ```
 * **Bước 3: Đăng ký Package và Thử nghiệm sự phụ thuộc**
-
     * Mở `package/Config.in` và thêm 2 đường dẫn source của hai package mới vào mục `Miscellaneous`.
-
     * Khởi chạy `make menuconfig`. Vào mục `Miscellaneous`, khi nhấn Space để chọn [ ] mathjson app (Group 8), hệ thống tự động bật cả 2 package libmymath và cJSON.
-
+    #### Kết quả:
+    ![Image](Select.jpg)
 * **Bước 4: Build và Thử nghiệm**
-
     * Gõ lệnh `make` để Buildroot tiến hành biên dịch toàn bộ hệ thống theo thứ tự dependency.
-
     * Nạp sdcard.img vào thẻ nhớ. Khởi động BBB và chạy lệnh mathjson để xem kết quả.
+    ### Kết quả đạt được:
+    ![Image](Test2.jpg)
 ---
+

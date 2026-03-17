@@ -4,9 +4,10 @@
 Trong hệ điều hành Linux, mọi thiết bị phần cứng đều được trừu tượng hóa dưới dạng các tệp tin (File). Bài tập này có mục đích là thao tác với các tệp tin ảo này thông qua hệ thống `sysfs` để điều khiển ngoại vi.
 * **Mục tiêu 1:** Tương tác trực tiếp với Device Driver của BeagleBone Black (BBB) quản lý LED bằng các lệnh cơ bản (`cat`, `echo`).
 * **Mục tiêu 2:** Viết chương trình C/C++ giao tiếp với Driver để tự động  nhấp nháy LED.
-* **Mục tiêu 3:** Đóng gói chương trình thành một Package vào Buildroot và cấu hình tiến trình khởi chạy ngầm ngay khi hệ điều hành boot thành công.
+* **Mục tiêu 3:** Đóng gói chương trình thành một Package vào Buildroot và cấu hình quá trình khởi chạy ngầm ngay khi hệ điều hành boot thành công.
 ---
-## II. Phần 1: Giao tiếp trực tiếp với Device Driver 
+## II. Quá trình thực hiện
+### Phần 1: Giao tiếp trực tiếp với Device Driver 
 Hệ điều hành quản lý 4 đèn LED tích hợp của BBB tại đường dẫn ảo `/sys/class/leds/`.
 
 **1. Tắt chế độ nhấp nháy mặc định của hệ thống:**
@@ -25,9 +26,9 @@ cat /sys/class/leds/beaglebone\:green\:usr0/brightness
 ```
 echo 0 > /sys/class/leds/beaglebone\:green\:usr0/brightness
 ```
-### ![Image](Device_Driver.jpg)
+#### ![Image](Device_Driver.jpg)
 ---
-## III. Phần 2: Viết chương trình C/C++ và tự động nhấp nháy với Buildroot 
+### Phần 2: Viết chương trình C/C++ giao tiếp và tự động khởi chạy với Buildroot 
 
 Viết chương trình C để hệ thống tự động hóa thao tác ghi tệp tin ảo, sau đó biên dịch chương trình.
 
@@ -151,11 +152,11 @@ make
 ```
 Cuối cùng là tải file Image, Device Driver và Application mới vào thẻ nhớ.
 
-## IV. Quá trình thử nghiệm
+## III. Kết quả thử nghiệm
 
 * Khi bật nguồn cho BeagleBone Black, Hệ thống khởi động thành công và hiển thị dòng chữ khởi tạo.
 * Đèn LED USR0 trên board tự động nhấp nháy theo chu kỳ. Đồng thời trên màn hình Terminal liên tục hiển thị trạng thái LED ON và OFF .
 ### Kết quả hiển thị:
 ![Image](Auto-run.jpg)
-(Có thể dừng quá trình hiển thị và tắt LED bằng lệnh:
-`/etc/init.d/S99blink stop` )
+
+(Có thể dừng quá trình hiển thị và tắt LED bằng lệnh: `/etc/init.d/S99blink stop`)

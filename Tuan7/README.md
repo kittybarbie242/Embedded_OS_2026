@@ -36,7 +36,7 @@ File bao gồm toàn bộ Device cơ bản và mở rộng điều khiển GPIO.
 #define GPIO1_BASE        0x4804C000
 #define GPIO1_SIZE        0x1000
 #define GPIO_OE           0x134   // Thanh ghi cau hinh Input/Output
-#define GPIO_DATAIN       0x138   // Thanh ghi doc trang thai
+#define GPIO_DATAOUT      0x13C   // Thanh ghi doc trang thai Output
 #define GPIO_CLEARDATAOUT 0x190   // Thanh ghi tat LED
 #define GPIO_SETDATAOUT   0x194   // Thanh ghi bat LED
 #define LED_PIN           21      // LED USR0

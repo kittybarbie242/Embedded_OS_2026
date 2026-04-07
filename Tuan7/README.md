@@ -65,18 +65,23 @@ static ssize_t driver_read(struct file *File, char *user_buffer, size_t count, l
     char val_str[2];
     uint32_t reg_val;
 
-    // Doc trang thai tu thanh ghi GPIO_DATAIN
-    reg_val = readl(gpio_base_addr + GPIO_DATAIN);
+    if (*offs > 0) return 0;
+
+    reg_val = readl(gpio_base_addr + GPIO_DATAOUT);
     if (reg_val & (1 << LED_PIN)) {
         val_str[0] = '1'; // LED dang sang
     } else {
         val_str[0] = '0'; // LED dang tat
     }
-    val_str[1] = '\0';
+    val_str[1] = '\n';
 
     // Sử dụng hàm copy_to_user
     not_copied = copy_to_user(user_buffer, val_str, 2);
-    return (not_copied == 0) ? 2 : -EFAULT;
+    if (not_copied == 0) {
+        *offs += 2;
+        return 2;
+    }
+    return -EFAULT;
 }
 
 // Lenh ghi trang thai LED từ User Space

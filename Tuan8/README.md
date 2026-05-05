@@ -50,7 +50,7 @@ sudo ifconfig enx5ed070fa3ab9 192.168.7.1 up
 arm-linux-gdb ./test_gdb
 (gdb) target remote 192.168.7.2:1234
 ```
-### Kết quả đạt được: 
+#### Kết quả đạt được: 
 ![Image](2.1.jpg)
 ---
 ![Image](2.2.jpg)
@@ -75,7 +75,7 @@ int main() {
 valgrind --leak-check=full ./leak
 ```
 (Sau đó tiến hành vá lỗi bằng cách thêm free(ptr); và chạy lại file leak_fixed để Valgrind trả về kết quả 0 bytes lost).
-### Kết quả thực hiện:
+#### Kết quả thực hiện:
 ![Image](2.3.jpg)
 ---
 ### 4. Bài tập 2.4: Phân tích Core Dump (Segmentation Fault)
@@ -105,7 +105,7 @@ arm-linux-gdb ./crash core
 (gdb) bt
 # Kết quả trỏ chính xác về dòng code *ptr = 42
 ```
-### Kết quả thực hiện:
+#### Kết quả thực hiện:
 ![Image](2.4b.jpg)
 ---
 ### 5. Bài tập 2.5: Phân tích hiệu năng (Perf)
@@ -132,7 +132,7 @@ Kiểm tra trên Target:
 perf record ./perf_test
 perf report
 ```
-### Kết quả thực hiện:
+#### Kết quả thực hiện:
 ![Image](2.5.jpg)
 ---
 ### 6. Bài tập 2.6: Phân tích Tracing
@@ -161,5 +161,5 @@ int main() {
 ```
 Thực hiện giám sát: `strace -c ./trace_test`
 (Bảng tổng hợp hiển thị thời gian và số lần gọi các syscall như openat, write, close, nanosleep...)
-### Kết quả thực hiện:
+#### Kết quả thực hiện:
 ![Image](2.6.jpg)

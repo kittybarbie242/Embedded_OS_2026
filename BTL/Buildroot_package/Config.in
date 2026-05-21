@@ -1,0 +1,5 @@
+config BR2_PACKAGE_SMARTBREAKER
+    bool "Smart Breaker BTL (IoT App & Drivers)"
+    select BR2_PACKAGE_MOSQUITTO
+    help
+      Goi phan mem dac biet cho Do An: Bao gom 5 Drivers va App giao tiep MQTT.

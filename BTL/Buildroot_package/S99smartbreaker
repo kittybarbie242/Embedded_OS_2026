@@ -1,0 +1,68 @@
+#!/bin/sh
+# ========================================================
+# KICH BAN KHOI DONG SMART BREAKER - FINAL VERSION
+# ========================================================
+
+DAEMON="/usr/bin/app_main"
+WATCHDOG_PIDFILE="/var/run/smartbreaker_watchdog.pid"
+LOG_FILE="/var/log/smartbreaker.log"
+
+watchdog_loop() {
+    echo "[$(date)] --- WATCHDOG STARTED ---" >> $LOG_FILE
+    while true; do
+        if [ -x "$DAEMON" ]; then
+            $DAEMON >> /var/log/smartbreaker_app.log 2>&1
+            echo "[$(date)] WARNING: App crashed. Restarting in 2s..." >> $LOG_FILE
+            sleep 5
+        else
+            sleep 5
+        fi
+    done
+}
+
+start() {
+    printf "Starting Smart Breaker...\n"
+    
+    # 1. Tu dong xin IP mang (Chay ngam voi -b de khong bi treo neu chua cam cap)
+    ifconfig eth0 up
+    udhcpc -b -i eth0 > /dev/null 2>&1
+    
+    # 2. DELAY 3 GIAY CHO PHAN CUNG SPI/UART KHOI DONG
+    sleep 3
+
+    # 3. Nap 5 Drivers
+    modprobe pzem_driver 2>/dev/null
+    modprobe relay_driver 2>/dev/null
+    modprobe button_driver 2>/dev/null
+    modprobe led_driver 2>/dev/null
+    modprobe st7735_driver 2>/dev/null
+
+    # 4. Cho doi TFT hien dien
+    for i in 1 2 3 4 5; do
+        if [ -c /dev/tft_st7735 ]; then
+            break
+        fi
+        sleep 1
+    done
+
+    # 5. Kich hoat Watchdog ngam (Se tu dong goi app_main)
+    watchdog_loop &
+    echo $! > "$WATCHDOG_PIDFILE"
+}
+
+stop() {
+    printf "Stopping Smart Breaker...\n"
+    if [ -f "$WATCHDOG_PIDFILE" ]; then
+        kill -9 $(cat "$WATCHDOG_PIDFILE") 2>/dev/null
+        rm -f "$WATCHDOG_PIDFILE"
+    fi
+    killall -9 app_main 2>/dev/null
+}
+
+case "$1" in
+    start) start ;;
+    stop) stop ;;
+    restart) stop; sleep 2; start ;;
+    *) echo "Usage: $0 {start|stop|restart}"; exit 1 ;;
+esac
+exit 0

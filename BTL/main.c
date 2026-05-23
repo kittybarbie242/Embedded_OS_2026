@@ -8,9 +8,7 @@
 #include <mosquitto.h>
 #include "tft_gui.h"
 
-// ========================================================
 // CẤU HÌNH BLYNK (HYBRID: MQTT + HTTP)
-// ========================================================
 #define BLYNK_TOKEN  "wnDIzmJiOS3PpQ9UwwrhIJlHwDr4dTGj"
 #define BLYNK_SERVER "sgp1.blynk.cloud"
 
@@ -20,7 +18,7 @@ double current_E_Ws = 0.0;
 int pzem_connected = 1;  
 int relay_state = 1;     
 int alarm_flag = 0;      
-int current_led_state = 0; // Biến mới: Theo dõi trạng thái thực tế của LED
+int current_led_state = 0; 
 
 float max_voltage = 250.0; 
 float max_current = 5.0; 
@@ -39,9 +37,7 @@ void write_device(const char* path, const char* val) {
     if (fd >= 0) { write(fd, val, 1); close(fd); }
 }
 
-// ---------------------------------------------------------
 // XỬ LÝ NGẮT (GRACEFUL SHUTDOWN)
-// ---------------------------------------------------------
 void handle_sigint(int sig) {
     printf("\n[SYSTEM] Dang dong chuong trinh va don dep tai nguyen...\n");
     if (global_mosq) {
@@ -57,9 +53,7 @@ void handle_sigint(int sig) {
     exit(0);
 }
 
-// ---------------------------------------------------------
 // THREAD 1: Đọc PZEM & Xử lý logic Bảo vệ
-// ---------------------------------------------------------
 void* sensor_thread_func(void* arg) {
     char buf[128];
     while(1) {
@@ -132,9 +126,7 @@ void* sensor_thread_func(void* arg) {
     return NULL;
 }
 
-// ---------------------------------------------------------
 // THREAD 2: Nút nhấn
-// ---------------------------------------------------------
 void* button_thread_func(void* arg) {
     char btn_val, last_state = '1';
     while(1) {
@@ -161,9 +153,7 @@ void* button_thread_func(void* arg) {
     return NULL;
 }
 
-// ---------------------------------------------------------
-// THREAD 3: Đèn LED báo động (Đã được đồng bộ biến)
-// ---------------------------------------------------------
+// THREAD 3: Đèn LED cảnh báo
 void* action_thread_func(void* arg) {
     int led_toggle = 0;
     while(1) {
@@ -190,9 +180,7 @@ void* action_thread_func(void* arg) {
     return NULL;
 }
 
-// ---------------------------------------------------------
 // THREAD 4: Động cơ hiển thị TFT 
-// ---------------------------------------------------------
 void* tft_thread_func(void* arg) {
     if (tft_init("/dev/tft_st7735") < 0) return NULL;
     int tick_counter = 0; 
@@ -271,11 +259,9 @@ void* tft_thread_func(void* arg) {
     return NULL;
 }
 
-// ---------------------------------------------------------
 // THREAD 5: (MQTT Heartbeat + HTTP Data)
-// ---------------------------------------------------------
 void* thread_blynk_hybrid(void* arg) {
-    // === BƯỚC 1: DÙNG MQTT ĐỂ LẤY CHẤM XANH ONLINE ===
+    // BƯỚC 1: DÙNG MQTT ĐỂ GIỮ TRẠNG THÁI ONLINE 
     mosquitto_lib_init();
     global_mosq = mosquitto_new("BBB_SmartBreaker", true, NULL);
     mosquitto_username_pw_set(global_mosq, "device", BLYNK_TOKEN);
@@ -285,7 +271,7 @@ void* thread_blynk_hybrid(void* arg) {
         mosquitto_loop_start(global_mosq); 
     }
 
-    // === BƯỚC 2: DÙNG HTTP ĐỂ BƠM DỮ LIỆU & ĐỌC SLIDER SIÊU NHANH ===
+    // BƯỚC 2: DÙNG HTTP ĐỂ GỬI DỮ LIỆU & ĐỌC SLIDER
     char cmd[512];
     char resp[64];
     int loop_counter = 0;
@@ -317,7 +303,7 @@ void* thread_blynk_hybrid(void* arg) {
         int t_led_state = current_led_state; // Lấy trạng thái của LED vật lý
         pthread_mutex_unlock(&lock);
 
-        // --- CẬP NHẬT NHẤP NHÁY LED LÊN APP (Chạy ngầm không giật lag) ---
+        // CẬP NHẬT NHẤP NHÁY LED LÊN APP
         if (t_led_state != last_led_state) {
             // Dấu & ở cuối lệnh giúp wget chạy ngầm dưới background
             sprintf(cmd, "wget -qO- -T 1 \"http://" BLYNK_SERVER "/external/api/update?token=%s&v7=%d\" > /dev/null 2>&1 &", BLYNK_TOKEN, t_led_state);
@@ -325,7 +311,6 @@ void* thread_blynk_hybrid(void* arg) {
             last_led_state = t_led_state;
         }
 
-        // --- BƠM DỮ LIỆU ĐIỆN THEO CHU KỲ ÉP XUNG (0.5 Giây/Lần) ---
         loop_counter++;
         if (loop_counter >= 5) { // 5 nhịp * 100ms = 500ms
             float t_E_Wh = t_E_Ws / 3600.0;
@@ -336,14 +321,12 @@ void* thread_blynk_hybrid(void* arg) {
             loop_counter = 0;
         }
 
-        usleep(100000); // Quét siêu tốc 100ms/lần
+        usleep(100000); 
     }
     return NULL;
 }
 
-// ---------------------------------------------------------
 // HÀM MAIN
-// ---------------------------------------------------------
 int main() {
     signal(SIGINT, handle_sigint); 
     signal(SIGTERM, handle_sigint); 

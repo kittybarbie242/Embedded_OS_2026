@@ -18,9 +18,7 @@ static struct serdev_device *pzem_serdev = NULL;
 
 static char message[128] = "No data yet\n";
 
-// ---------------------------------------------------
-// VŨ KHÍ MỚI: BỘ ĐỆM GOM DỮ LIỆU CHỐNG PHÂN MẢNH
-// ---------------------------------------------------
+// BỘ ĐỆM GOM DỮ LIỆU CHỐNG PHÂN MẢNH
 static unsigned char rx_buffer[64];
 static int rx_index = 0;
 
